@@ -60,31 +60,91 @@ const createTableRow = (elem) => {
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
-        command = "/guestRequest/volunteer/fullRequest/";
-    
-        axios.get(serverURL + command + elem.id, H)
-        .then(res=>showRequest(res.data))
-        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
-    }
-    
-    let del = tableRow.querySelector(".pg-delete");
-    if (del){
-        del.onclick = () => {
-            command = "/guestRequest/admin/req/";
-        
-            axios.delete(serverURL + command + elem.id, H)
-            .then(
-                res=>{
-                    createAlert("Успешно удалено");
 
-                    axios.get(serverURL + requestButtons[elem.status].src, H)
-                    .then(res=>createRequestsTable(res.data, elem.status))
-                    .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
-                }
-            )
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+        tmp = {
+            "id": 3,
+            "surname": "Уставший",
+            "name": "Евгений",
+            "patronymic": "Игоревич",
+            "phone": "+79231672244",
+            "commentGuest": "Меня бьют палками",
+            "status": "CANCELLED",
+            "typeAssistance": "OTHER",
+            "createdAt": "2023-07-04T21:12:00.000Z",
+            "updatedAt": "2023-07-03T21:12:00.000Z",
+            "comments": [
+                {
+            "id": 1,
+            "content": "заявка рассмотрена",
+            "createdAt": "2023-07-05T08:00:00.000Z",
+            "updatedAt": "2023-07-05T08:00:00.000Z",
+            "userId": 1,
+            "guestRequestId": 6,
+            "user": {
+                "id": 1,
+                "surname": "Ovch",
+                "name": "Alex",
+                "patronymic": "A",
+                "post": "student",
+                "placeWorkOrStudy": "SSTU",
+                "phone": "+79063028764",
+                "email": "345w2111@mail.ru",
+                "createdAt": "2023-07-05T07:02:02.046Z",
+                "updatedAt": "2023-07-05T07:02:02.046Z",
+                "credentialId": 2
+            }
+        },
+        {
+            "id": 17,
+            "content": "Отобрали палки",
+            "createdAt": "2023-07-07T17:26:42.554Z",
+            "updatedAt": "2023-07-07T17:26:42.554Z",
+            "userId": 1,
+            "guestRequestId": 6,
+            "user": {
+                "id": 1,
+                "surname": "Ovch",
+                "name": "Alex",
+                "patronymic": "A",
+                "post": "student",
+                "placeWorkOrStudy": "SSTU",
+                "phone": "+79063028764",
+                "email": "345w2111@mail.ru",
+                "createdAt": "2023-07-05T07:02:02.046Z",
+                "updatedAt": "2023-07-05T07:02:02.046Z",
+                "credentialId": 2
+            }
+        },
+        {
+            "id": 18,
+            "content": "Больше гостя не били",
+            "createdAt": "2023-07-07T17:26:57.740Z",
+            "updatedAt": "2023-07-07T17:26:57.740Z",
+            "userId": 1,
+            "guestRequestId": 6,
+            "user": {
+                "id": 1,
+                "surname": "Ovch",
+                "name": "Alex",
+                "patronymic": "A",
+                "post": "student",
+                "placeWorkOrStudy": "SSTU",
+                "phone": "+79063028764",
+                "email": "345w2111@mail.ru",
+                "createdAt": "2023-07-05T07:02:02.046Z",
+                "updatedAt": "2023-07-05T07:02:02.046Z",
+                "credentialId": 2
+            }
         }
+    ]
+
+        }
+        
+        showRequest(tmp)
+        
     }
+    
+   
 
     return tableRow;
 }
@@ -210,31 +270,7 @@ const createForm = (id, status, assistance) => {
 
         if (!assistanceS) assistanceS = null;
 
-        if (statusS != status){
-            commandA = "/guestRequest/volunteer/req/updateStatus/";
-            axios.put(serverURL + commandA + id, {status: statusS}, H)
-            .then(res=>(e.target.reset(),createAlert("Статус изменен успешно")))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
-        }
-
-        if (assistanceS != assistance){
-            commandB = "/guestRequest/volunteer/req/updateAssistance/";
-            axios.put(serverURL + commandB + id, {typeAssistance: assistanceS}, H)
-            .then(res=>(e.target.reset(),createAlert("Тип помощи изменен успешно")))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
-        }
-
-        if (comment){
-            commandC = "/commentingApplication";
-            axios.post(serverURL + commandC, {content: comment, userId: 1, guestRequestId: id}, H)
-            .then(res=>(e.target.reset(),createAlert("Комментарий создан успешно")))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
-        }
- 
-        commandD = "/guestRequest/volunteer/fullRequest/";
-        axios.get(serverURL + commandD + id, H)
-        .then(res=>showRequest(res.data))
-        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+        
     }
 
     return form;

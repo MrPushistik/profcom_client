@@ -281,9 +281,7 @@ const createFormUser = () => {
         const email = form.querySelector("#email-user").value;
         command = "/user/registration";
         
-        axios.post(serverURL + command, {login:login,password:password,confirmPassword:confirmPassword,role:role,surname:surname,name:name,patronymic:patronymic,post:post,placeWorkOrStudy:placeWorkOrStudy,phone:phone,email:email}, H)
-        .then(res=>(console.log(res.data),e.target.reset(),createAlert("Пользователь создан успешно")))
-        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
+       
     }
 
     return form;
@@ -509,18 +507,7 @@ const createFormFeedback = (elem) => {
         let status = form.querySelector(".pg-select-status").value;
         let mark = form.querySelector(".pg-select-mark").value;
 
-        command = "/feedback/req/";
-        axios.put(serverURL + command + elem.id, {commentatorName:elem.commentatorName,commentatorSurname:elem.commentatorSurname,comment:elem.comment,estimation:mark,status:status,guestRequestId:elem.guestRequestId}, H)
-        .then(res=>{
-            createAlert("Отзыв успешно изменен")
 
-            commandB = "/feedback/";
-            axios.get(serverURL + commandB + elem.id, H)
-            .then(res=>(showFeedback(res.data)))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
-        }
-        )
-        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
 
     return form;

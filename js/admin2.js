@@ -905,7 +905,7 @@ const requestButtons = {
                 "patronymic": "",
                 "phone": "+79235551122",
                 "commentGuest": "ААААААААААА",
-                "status": "CANCELLED",
+                "status": "COMPLETED",
                 "typeAssistance": "OTHER",
                 "createdAt": "2023-07-07T10:27:53.604Z",
                 "updatedAt": "2023-07-07T17:39:20.966Z"
@@ -917,7 +917,7 @@ const requestButtons = {
                 "patronymic": "Игоревич",
                 "phone": "+79231672244",
                 "commentGuest": "Я устал",
-                "status": "CANCELLED",
+                "status": "COMPLETED",
                 "typeAssistance": "OTHER",
                 "createdAt": "2023-07-04T21:12:00.000Z",
                 "updatedAt": "2023-07-03T21:12:00.000Z"

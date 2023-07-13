@@ -3,11 +3,109 @@ const adminButtons = {
     "USER": {
         elem: document.querySelector(".reg_users"),
         src: "/user/admin/req",
+        tmp: [
+    {
+        "id": 7,
+        "surname": "Норм",
+        "name": "Нормович",
+        "patronymic": "Норменков",
+        "post": "Человек",
+        "placeWorkOrStudy": "СГТУ",
+        "phone": "+79231552311",
+        "email": "dasail@mail.ru",
+        "createdAt": "2023-07-13T11:10:39.631Z",
+        "updatedAt": "2023-07-13T13:21:36.554Z",
+        "credentialId": 8
+    },
+    {
+        "id": 2,
+        "surname": "Kash",
+        "name": "Gog",
+        "patronymic": "A",
+        "post": "student",
+        "placeWorkOrStudy": "SSTU",
+        "phone": "+79238816623",
+        "email": "2316656@mail.ru",
+        "createdAt": "2023-07-05T07:11:31.074Z",
+        "updatedAt": "2023-07-05T07:11:31.074Z",
+        "credentialId": 3
+    },
+    {
+        "id": 1,
+        "surname": "Ovch",
+        "name": "Alex",
+        "patronymic": "A",
+        "post": "student",
+        "placeWorkOrStudy": "SSTU",
+        "phone": "+79063028764",
+        "email": "345w2111@mail.ru",
+        "createdAt": "2023-07-05T07:02:02.046Z",
+        "updatedAt": "2023-07-05T07:02:02.046Z",
+        "credentialId": 2
+    }
+],
         action: (data) => getUsers(data)
     },
     "FEEDBACK": {
         elem: document.querySelector(".reg_feedbacks"),
         src: "/feedback/",
+        tmp: [
+    {
+        "id": 7,
+        "commentatorName": "Виктория",
+        "commentatorSurname": "Середенкина",
+        "comment": "Где",
+        "estimation": 5,
+        "status": "REJECTED",
+        "createdAt": "2023-07-13T13:19:15.884Z",
+        "updatedAt": "2023-07-13T13:20:26.235Z",
+        "guestRequestId": 26
+    },
+    {
+        "id": 6,
+        "commentatorName": "Александр",
+        "commentatorSurname": "Овчинников",
+        "comment": "dsadsadsadsa",
+        "estimation": 5,
+        "status": "MODERATION",
+        "createdAt": "2023-07-13T11:35:25.940Z",
+        "updatedAt": "2023-07-13T11:35:25.940Z",
+        "guestRequestId": 20
+    },
+    {
+        "id": 3,
+        "commentatorName": "Влад",
+        "commentatorSurname": "Владов",
+        "comment": "0/10",
+        "estimation": 3,
+        "status": "REJECTED",
+        "createdAt": "2023-07-09T22:07:35.030Z",
+        "updatedAt": "2023-07-13T07:39:01.359Z",
+        "guestRequestId": 9
+    },
+    {
+        "id": 2,
+        "commentatorName": "Влад",
+        "commentatorSurname": "Владов",
+        "comment": "ААААААА",
+        "estimation": 5,
+        "status": "MODERATION",
+        "createdAt": "2023-07-07T10:28:41.005Z",
+        "updatedAt": "2023-07-13T07:39:25.128Z",
+        "guestRequestId": 9
+    },
+    {
+        "id": 1,
+        "commentatorName": "Влад",
+        "commentatorSurname": "Владов",
+        "comment": "ААААААА",
+        "estimation": 5,
+        "status": "MODERATION",
+        "createdAt": "2023-07-07T10:28:36.551Z",
+        "updatedAt": "2023-07-11T15:51:36.357Z",
+        "guestRequestId": 9
+    }
+],
         action: (data) => getFeedbacks(data)
     },
 }
@@ -78,26 +176,32 @@ const createTableRowUser = (elem) => {
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
         command = "/user/admin/req/";
-    
-        axios.get(serverURL + command + elem.id, H)
-        .then(res=>showUser(res.data))
-        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
-    }
-    
-    let del = tableRow.querySelector(".pg-delete");
-    if (del){
-        del.onclick = () => {
-            command = "/user/";
-        
-            axios.delete(serverURL + command + elem.id, H)
-            .then(res=>console.log(res))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
-        
-            axios.get(serverURL + "/user/admin/req", H)
-            .then(res=>getUsers(res.data))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+
+        let tmp = {
+            "id": 1,
+            "surname": "Aдмин",
+            "name": "Админ",
+            "patronymic": "A",
+            "post": "student",
+            "placeWorkOrStudy": "SSTU",
+            "phone": "+79063028764",
+            "email": "345w2111@mail.ru",
+            "createdAt": "2023-07-05T07:02:02.046Z",
+            "updatedAt": "2023-07-05T07:02:02.046Z",
+            "credentialId": 2,
+            "credential": {
+                "id": 2,
+                "login": "mrp",
+                "password": "$2b$05$ZsJkFwynmafzvr/1T3fAY./W1/0ujzjM7Dnq0rkqKTPF2pNGHOcgC",
+                "role": "ADMIN",
+                "createdAt": "2023-07-05T07:02:02.040Z",
+                "updatedAt": "2023-07-05T07:02:02.040Z"
+            }
         }
+
+        showUser(tmp);
     }
+    
 
     return tableRow;
 }
@@ -204,44 +308,54 @@ const createUserCard = (elem) => {
             <p class="req-card-title">Пользователь №${elem.id}</p>
             <p class="req-card-date">${new Date(elem.createdAt).toLocaleString()}</p>
         </div>
+        <button class="pg-close req-card-close">x</button>
     </div>
 
     <div class="req-comments-header margintop10">
         <p class="req-comments-title">Сведения о пользователе</p>
     </div>
 
-    <div class="admin-user-info margintop10">
+    <form class="admin-user-info margintop10 pg-user">
         <div class="req-info user-info">
-            <p class="req-info-title">ФИО:</p>
-            <p class="req-info-value user-info-value">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+            <label class="req-info-title">ФИО:</label>
+            <input type="text" class="pg-surname req-info-value user-info-value" value="${elem.surname}">
+            <input type="text" class="pg-name req-info-value user-info-value" value="${elem.name}">
+            <input type="text" class="pg-patronymic req-info-value user-info-value" value="${elem.patronymic}">
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Должность:</p>
-            <p class="req-info-value user-info-value">${elem.post}</p>
+            <lable class="req-info-title">Должность:</label>
+            <input type="text" class="pg-post req-info-value user-info-value" value="${elem.post}">
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Место работы/учёбы:</p>
-            <p class="req-info-value user-info-value">${elem.placeWorkOrStudy}</p>
+            <label class="req-info-title">Место работы/учёбы:</label>
+            <input type="text" class="pg-place req-info-value user-info-value" value="${elem.placeWorkOrStudy}">
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Телефон:</p>
-            <p class="req-info-value user-info-value">${elem.phone}</p>
+            <label class="req-info-title">Телефон:</label>
+            <input type="text" class="pg-phone req-info-value user-info-value" value="${elem.phone}">
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Почта:</p>
-            <p class="req-info-value user-info-value">${elem.email}</p>
+            <label class="req-info-title">Почта:</label>
+            <input type="text" class="pg-email req-info-value user-info-value" value="${elem.email}">
         </div>
-    </div>
+
+        <button type="submit" class="req-form-submit">Сохранить изменения</button>
+    </form>
 
     <div class="req-comments-header margintop10">
         <p class="req-comments-title">Учетные данные пользователя</p>
     </div>
 
-    <div class="admin-user-info margintop10">
+    <div class="admin-user-info margintop10 pg-cred">
         <div class="req-info user-info">
             <p class="req-info-title">Логин:</p>
             <p class="req-info-value user-info-value">${elem.credential.login}</p>
         </div>
+        <form class="req-info user-info pg-change-password">
+            <label class="req-info-title">Изменить пароль:</label>
+            <input type="password" class="req-info-value user-info-value pg-new-password">
+            <button type="submit" class="req-form-submit user-form-submit">Изменить</button>
+        </form>
         <div class="req-info user-info">
             <p class="req-info-title">Роль:</p>
             <p class="req-info-value user-info-value">${elem.credential.role}</p>
@@ -313,28 +427,23 @@ const createTableRowFeedback = (elem) => {
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
-        command = "/feedback/";
-    
-        axios.get(serverURL + command + elem.id, H)
-        .then(res=>showFeedback(res.data))
-        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
-    }
-    
-    let del = tableRow.querySelector(".pg-delete");
-    if (del){
-        del.onclick = () => {
-            command = "/feedback/";
-        
-            axios.delete(serverURL + command + elem.id, H)
-            .then(res=>console.log(res))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
-        
-            axios.get(serverURL + "/feedback/", H)
-            .then(res=>getFeedbacks(res.data))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+        let tmp = 
+        {
+            "id": 7,
+            "commentatorName": "Виктория",
+            "commentatorSurname": "Середенкина",
+            "comment": "Где????",
+            "estimation": 5,
+            "status": "REJECTED",
+            "createdAt": "2023-07-13T13:19:15.884Z",
+            "updatedAt": "2023-07-13T13:20:26.235Z",
+            "guestRequestId": 26
         }
+    
+        showFeedback(tmp);
+        
     }
-
+    
     return tableRow;
 }
 
@@ -709,9 +818,7 @@ for (let key in adminButtons) {
             const buttonHolder = document.querySelector(".pg-extra-nav");
             if (buttonHolder) buttonHolder.remove();
 
-            axios.get(serverURL + adminButtons[key].src, H)
-            .then(res=>adminButtons[key].action(res.data))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+            adminButtons[key].action(adminButtons[key].tmp)
     }
 }
 
@@ -726,6 +833,7 @@ const requestButtons = {
         classes: "request-nav-button request-nav-button-dis",
         targClass: "new_requests",
         src: "/guestRequest/volunteer/forNewApplication",
+        tmp: [],
         showType: false,
         buttonName: "Обработать",
         haveForm: true
@@ -734,6 +842,32 @@ const requestButtons = {
         classes: "request-nav-button request-nav-button-dis",
         targClass: "work_requests",
         src: "/guestRequest/volunteer/forWorkApplication",
+        tmp: [
+            {
+                "id": 17,
+                "surname": "Рвфывыфвыф",
+                "name": "Пвыфвыфвф",
+                "patronymic": "",
+                "phone": "+79271592540",
+                "commentGuest": "dsadsadsadsa",
+                "status": "AT WORK",
+                "typeAssistance": "PSYCHO",
+                "createdAt": "2023-07-12T10:44:58.418Z",
+                "updatedAt": "2023-07-13T11:36:47.328Z"
+            },
+            {
+                "id": 13,
+                "surname": "Фвыфвыфв",
+                "name": "Фвыфвыф",
+                "patronymic": "",
+                "phone": "+73124442211",
+                "commentGuest": "afdsdfsadafs",
+                "status": "AT WORK",
+                "typeAssistance": "HUMANITARIAN",
+                "createdAt": "2023-07-09T18:03:53.505Z",
+                "updatedAt": "2023-07-11T16:03:43.164Z"
+            }
+        ],
         showType: true,
         buttonName: "Редактировать",
         haveForm: true
@@ -742,6 +876,32 @@ const requestButtons = {
         classes: "request-nav-button request-nav-button-dis",
         targClass: "cancelled_requests",
         src: "/guestRequest/volunteer/forCancelledApplication",
+        tmp: [
+            {
+                "id": 9,
+                "surname": "Владов",
+                "name": "Влад",
+                "patronymic": "",
+                "phone": "+79235551122",
+                "commentGuest": "ААААААААААА",
+                "status": "CANCELLED",
+                "typeAssistance": "OTHER",
+                "createdAt": "2023-07-07T10:27:53.604Z",
+                "updatedAt": "2023-07-07T17:39:20.966Z"
+            },
+            {
+                "id": 3,
+                "surname": "Уставший",
+                "name": "Евгений",
+                "patronymic": "Игоревич",
+                "phone": "+79231672244",
+                "commentGuest": "Я устал",
+                "status": "CANCELLED",
+                "typeAssistance": "OTHER",
+                "createdAt": "2023-07-04T21:12:00.000Z",
+                "updatedAt": "2023-07-03T21:12:00.000Z"
+            }
+        ],
         showType: true,
         buttonName: "Просмотреть",
         haveForm: false
@@ -750,6 +910,32 @@ const requestButtons = {
         classes: "request-nav-button request-nav-button-dis",
         targClass: "completed_requests",
         src: "/guestRequest/volunteer/forCompletedApplication",
+        tmp: [
+            {
+                "id": 9,
+                "surname": "Владов",
+                "name": "Влад",
+                "patronymic": "",
+                "phone": "+79235551122",
+                "commentGuest": "ААААААААААА",
+                "status": "CANCELLED",
+                "typeAssistance": "OTHER",
+                "createdAt": "2023-07-07T10:27:53.604Z",
+                "updatedAt": "2023-07-07T17:39:20.966Z"
+            },
+            {
+                "id": 3,
+                "surname": "Уставший",
+                "name": "Евгений",
+                "patronymic": "Игоревич",
+                "phone": "+79231672244",
+                "commentGuest": "Я устал",
+                "status": "CANCELLED",
+                "typeAssistance": "OTHER",
+                "createdAt": "2023-07-04T21:12:00.000Z",
+                "updatedAt": "2023-07-03T21:12:00.000Z"
+            }
+        ],
         showType: true,
         buttonName: "Просмотреть",
         haveForm: false
@@ -772,10 +958,7 @@ document.querySelector(".requests").onclick = () => {
         button.innerHTML = matches.values[matches.keys.indexOf(key)];
 
         button.onclick = () => {
-            requestSorts.date.currOption = 0;
-            axios.get(serverURL + requestButtons[key].src, H)
-            .then(res=>createRequestsTable(res.data))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+            createRequestsTable(requestButtons[key].tmp)
         }
 
         buttonHolder.appendChild(button);
@@ -791,18 +974,64 @@ const statisticsButtons = {
         class: "status_statistics statistics-nav-button statistics-nav-button-dis",
         //elem: document.querySelector(".status_statistics"),
         src: "/guestRequest/admin/statusStatistics",
+        tmp: {
+            "NEW": 0,
+            "AT WORK": 3,
+            "CANCELLED": 4,
+            "COMPLETED": 7,
+            "ALL": 14
+        },
         action: (data) => getStatusStatistics(data)
     },
     "ASSISTANCESTATISTICS": {
         class: "assistance_statistics statistics-nav-button statistics-nav-button-dis",
         //elem: document.querySelector(".assistance_statistics"),
         src: "/guestRequest/admin/assistanceStatistics",
+        tmp:
+        {
+            "ADDRESS": 2,
+            "PSYCHO": 7,
+            "HUMANITARIAN": 2,
+            "OTHER": 3,
+            "ALL": 14
+        },
         action: (data) =>  getAssistanceStatistics(data)
     },
     "COMPLEXSTATISTICS": {
         class: "complex_statistics statistics-nav-button statistics-nav-button-dis",
         //elem: document.querySelector(".complex_statistics"),
         src: "/guestRequest/admin/complexStatistics",
+        tmp:
+        {
+            "ADDRESS": {
+                "NEW": 0,
+                "AT WORK": 0,
+                "CANCELLED": 1,
+                "COMPLETED": 1,
+                "ALL": 2
+            },
+            "PSYCHO": {
+                "NEW": 0,
+                "AT WORK": 2,
+                "CANCELLED": 0,
+                "COMPLETED": 5,
+                "ALL": 7
+            },
+            "HUMANITARIAN": {
+                "NEW": 0,
+                "AT WORK": 1,
+                "CANCELLED": 0,
+                "COMPLETED": 1,
+                "ALL": 2
+            },
+            "OTHER": {
+                "NEW": 0,
+                "AT WORK": 0,
+                "CANCELLED": 3,
+                "COMPLETED": 0,
+                "ALL": 3
+            }
+        },
         action: (data) => getComplexStatistics(data)
     },
 }
@@ -823,9 +1052,7 @@ document.querySelector(".statistics").onclick = () => {
         button.innerHTML = matches.values[matches.keys.indexOf(key)];
 
         button.onclick = () => {
-            axios.get(serverURL + statisticsButtons[key].src, H)
-            .then(res=>statisticsButtons[key].action(res.data))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+            statisticsButtons[key].action(statisticsButtons[key].tmp)
         }
 
         buttonHolder.appendChild(button);
